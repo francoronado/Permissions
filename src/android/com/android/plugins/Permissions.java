@@ -130,6 +130,17 @@ public class Permissions extends CordovaPlugin {
             addProperty(returnObj, KEY_RESULT_PERMISSION, true);
             callbackContext.success(returnObj);
         } else {
+
+            if (!Environment.isExternalStorageManager()){
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+            
+            }
+            else{
+
             permissionsCallback = callbackContext;
             String[] permissionArray = getPermissions(permissions);
             if (permissionArray.length == 1 && "android.permission.SYSTEM_ALERT_WINDOW".equals(permissionArray[0])) {
@@ -150,6 +161,7 @@ public class Permissions extends CordovaPlugin {
                 }
             }
             cordova.requestPermissions(this, REQUEST_CODE_ENABLE_PERMISSION, permissionArray);
+            }
         }
     }
 
@@ -190,20 +202,5 @@ public class Permissions extends CordovaPlugin {
         } catch (JSONException ignored) {
             //Believe exception only occurs when adding duplicate keys, so just ignore it
         }
-    }
-
-
-    // If you have access to the external storage, do whatever you need
-    if (Environment.isExternalStorageManager()){
-
-    // If you don't have access, launch a new activity to show the user the system's dialog
-    // to allow access to the external storage
-    }else{
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-        intent.setData(uri);
-        startActivity(intent);
-    	}
     }
 }
