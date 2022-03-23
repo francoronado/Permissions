@@ -191,4 +191,19 @@ public class Permissions extends CordovaPlugin {
             //Believe exception only occurs when adding duplicate keys, so just ignore it
         }
     }
+
+
+    // If you have access to the external storage, do whatever you need
+    if (Environment.isExternalStorageManager()){
+
+    // If you don't have access, launch a new activity to show the user the system's dialog
+    // to allow access to the external storage
+    }else{
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+        Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    	}
+    }
 }
