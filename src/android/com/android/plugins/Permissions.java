@@ -129,7 +129,34 @@ public class Permissions extends CordovaPlugin {
             JSONObject returnObj = new JSONObject();
             addProperty(returnObj, KEY_RESULT_PERMISSION, true);
             callbackContext.success(returnObj);
-        } else {
+        }
+        
+        else if (permissions.getString(0) == "android.permission.MANAGE_EXTERNAL_STORAGE") {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                }
+
+        }
+        
+         else {
+
+            // If you have access to the external storage, do whatever you need
+            if (Environment.isExternalStorageManager()){
+
+            // If you don't have access, launch a new activity to show the user the system's dialog
+            // to allow access to the external storage
+            }else{
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+
             permissionsCallback = callbackContext;
             String[] permissionArray = getPermissions(permissions);
             if (permissionArray.length == 1 && "android.permission.SYSTEM_ALERT_WINDOW".equals(permissionArray[0])) {
