@@ -133,7 +133,7 @@ public class Permissions extends CordovaPlugin {
         }
         
 
-	else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+	 else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
     	if (permissions.getString(0).equals("android.permission.MANAGE_EXTERNAL_STORAGE")) {
         	Activity activity = this.cordova.getActivity();
         	//Context context = this.cordova.getActivity().getApplicationContext();
@@ -144,10 +144,7 @@ public class Permissions extends CordovaPlugin {
         	activity.startActivityForResult(intent, ACTION_MANAGE_STORAGE_PERMISSION);
         	return;
     		}
-	}	
-
-     
-         else {
+	} else {
             permissionsCallback = callbackContext;
             String[] permissionArray = getPermissions(permissions);
             if (permissionArray.length == 1 && "android.permission.SYSTEM_ALERT_WINDOW".equals(permissionArray[0])) {
