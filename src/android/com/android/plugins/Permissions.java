@@ -131,15 +131,17 @@ public class Permissions extends CordovaPlugin {
             callbackContext.success(returnObj);
         }
         
-        else if (permissions.getString(0) == "android.permission.MANAGE_EXTERNAL_STORAGE") {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                            Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-                            intent.setData(uri);
-                            startActivity(intent);
-                }
-        }
+
+	else if (permissions.getString(0).equals("android.permission.MANAGE_EXTERNAL_STORAGE") ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri uri = Uri.fromParts("package", cordova.getActivity().getPackageName(), null);
+                    intent.setData(uri);
+                    cordova.getActivity().startActivity(intent);
+        	}
+	}
+
         
          else {
             permissionsCallback = callbackContext;
