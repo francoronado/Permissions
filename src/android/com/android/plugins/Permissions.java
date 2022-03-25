@@ -27,6 +27,7 @@ public class Permissions extends CordovaPlugin {
 
     private static final int REQUEST_CODE_ENABLE_PERMISSION = 55433;
     private static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 5469; // For SYSTEM_ALERT_WINDOW
+    private static int ACTION_MANAGE_STORAGE_PERMISSION = 3312;
 
     private static final String KEY_ERROR = "error";
     private static final String KEY_MESSAGE = "message";
