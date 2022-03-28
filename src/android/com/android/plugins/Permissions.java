@@ -110,7 +110,6 @@ public class Permissions extends CordovaPlugin {
             JSONObject returnObj = new JSONObject();
 
             if ("android.permission.MANAGE_EXTERNAL_STORAGE".equals(permission0)){
-                JSONObject returnObj = new JSONObject();
                 addProperty(returnObj, KEY_RESULT_PERMISSION, Environment.isExternalStorageManager());
                 callbackContext.success(returnObj);
                 return;
