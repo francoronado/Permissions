@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -90,6 +91,7 @@ public class Permissions extends CordovaPlugin {
             addProperty(returnObj, KEY_ERROR, ACTION_CHECK_PERMISSION);
             addProperty(returnObj, KEY_MESSAGE, "One time one permission only.");
             callbackContext.error(returnObj);
+
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             JSONObject returnObj = new JSONObject();
             addProperty(returnObj, KEY_RESULT_PERMISSION, true);
@@ -106,7 +108,14 @@ public class Permissions extends CordovaPlugin {
                 return;
             }
             JSONObject returnObj = new JSONObject();
-            if ("android.permission.SYSTEM_ALERT_WINDOW".equals(permission0)) {
+
+            if ("android.permission.MANAGE_EXTERNAL_STORAGE".equals(permission0)){
+                JSONObject returnObj = new JSONObject();
+                addProperty(returnObj, KEY_RESULT_PERMISSION, Environment.isExternalStorageManager());
+                callbackContext.success(returnObj);
+                return;
+            }
+            else if ("android.permission.SYSTEM_ALERT_WINDOW".equals(permission0)) {
                 Context context = this.cordova.getActivity().getApplicationContext();
                 addProperty(returnObj, KEY_RESULT_PERMISSION, Settings.canDrawOverlays(context));
             } else {
@@ -136,7 +145,6 @@ public class Permissions extends CordovaPlugin {
 	 else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
     	if (permissions.getString(0).equals("android.permission.MANAGE_EXTERNAL_STORAGE")) {
         	Activity activity = this.cordova.getActivity();
-        	//Context context = this.cordova.getActivity().getApplicationContext();
         	Intent intent = new Intent();
         	intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
         	Uri uri = Uri.parse("package:"+activity.getPackageName());
