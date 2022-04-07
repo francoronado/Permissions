@@ -141,7 +141,7 @@ public class Permissions extends CordovaPlugin {
         }
         
 
-	 else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+	 else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
     	if (permissions.getString(0).equals("android.permission.MANAGE_EXTERNAL_STORAGE")) {
         	Activity activity = this.cordova.getActivity();
         	Intent intent = new Intent();
